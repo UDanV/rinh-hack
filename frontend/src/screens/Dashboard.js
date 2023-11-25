@@ -11,18 +11,18 @@ export default function Dashboard({ navigation }) {
             <Logo />
             <Header>Добро пожаловать!</Header>
             <Paragraph>
-                Вы зашли, вау, вы гей еще кста
+                Вы вошли в аккаунт, можете начинать работу.
             </Paragraph>
             <Button
-                mode="outlined"
+                mode="contained"
                 onPress={() =>
                     navigation.reset({
                         index: 0,
-                        routes: [{ name: 'StartScreen' }],
+                        routes: [{ name: 'ListApplication' }],
                     })
                 }
             >
-                Sign out
+                Продолжить
             </Button>
         </Background>
     )
