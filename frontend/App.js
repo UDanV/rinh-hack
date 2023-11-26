@@ -13,6 +13,7 @@ import {
     InfoApplication,
     FormCreateApplication,
     Result,
+    Error,
 } from './src/screens'
 
 const Stack = createStackNavigator()
@@ -39,6 +40,7 @@ export default function App() {
                     <Stack.Screen name="InfoApplication" component={InfoApplication} />
                     <Stack.Screen name="FormCreateApplication" component={FormCreateApplication} />
                     <Stack.Screen name="Result" component={Result} />
+                    <Stack.Screen name="Error" component={Error} />
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

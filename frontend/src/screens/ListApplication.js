@@ -13,7 +13,7 @@ export default function ListApplication({ navigation }) {
     try {
       // Попытка входа
       const GetResponse = await axios.get(
-        "http://localhost:8000/creditget_requests",
+        "http://localhost:8000/credit/get_requests",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,33 +53,7 @@ export default function ListApplication({ navigation }) {
       <ScrollView>
         <View style={styles.container}>
           <Header>Ваши заявки</Header>
-
-          <Card containerStyle={{ marginTop: 15, borderRadius: 15 }}>
-            <View style={{ margin: "auto" }}>
-              <AcceptedImg />
-              <Text style={{ textAlign: "center" }}>Дата: 21.12.2023</Text>
-              <Text style={{ textAlign: "center" }}>Статус: Одобрена</Text>
-            </View>
-            <Button
-              mode="contained"
-              onPress={() => navigation.navigate("InfoApplication")}
-            >
-              Подробнее
-            </Button>
-          </Card>
-          <Card containerStyle={{ marginTop: 15, borderRadius: 15 }}>
-            <View style={{ margin: "auto" }}>
-              <NotAcceptedImg />
-              <Text style={{ textAlign: "center" }}>Дата: 21.12.2023</Text>
-              <Text style={{ textAlign: "center" }}>Статус: Отклонена</Text>
-            </View>
-            <Button
-              mode="contained"
-              onPress={() => navigation.navigate("InfoApplication")}
-            >
-              Подробнее
-            </Button>
-          </Card>
+          <Text style={styles.text}>У вас еще не было заявок. Создайте её сейчас!</Text>
           <Button
             mode="outlined"
             onPress={() => navigation.navigate("FormCreateApplication")}
@@ -96,4 +70,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  text: {
+    fontSize: 18,
+    textAlign: "center",
+  }
 });
