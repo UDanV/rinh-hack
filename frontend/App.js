@@ -10,6 +10,9 @@ import {
     ResetPasswordScreen,
     Dashboard,
     ListApplication,
+    InfoApplication,
+    FormCreateApplication,
+    Result,
 } from './src/screens'
 
 const Stack = createStackNavigator()
@@ -33,6 +36,9 @@ export default function App() {
                         component={ResetPasswordScreen}
                     />
                     <Stack.Screen name="ListApplication" component={ListApplication} />
+                    <Stack.Screen name="InfoApplication" component={InfoApplication} />
+                    <Stack.Screen name="FormCreateApplication" component={FormCreateApplication} />
+                    <Stack.Screen name="Result" component={Result} />
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

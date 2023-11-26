@@ -72,7 +72,7 @@ export default function RegisterScreen({ navigation }) {
                 onPress={onSignUpPressed}
                 style={{ marginTop: 24 }}
             >
-                Next
+                Продолжить
             </Button>
             <View style={styles.row}>
                 <Text>У меня уже есть аккаунт</Text>

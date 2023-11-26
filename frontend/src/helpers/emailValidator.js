@@ -1,6 +1,6 @@
 export function emailValidator(email) {
     const re = /\S+@\S+\.\S+/
-    if (!email) return "Please fill in this field."
-    if (!re.test(email)) return 'Please enter a valid email address!'
+    if (!email) return "Заполните это поле"
+    if (!re.test(email)) return 'Введите верную почту'
     return ''
 }
