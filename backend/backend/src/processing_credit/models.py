@@ -1,4 +1,4 @@
-from sqlalchemy import TEXT, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
@@ -7,6 +7,7 @@ from src.my_type_notation import added_at, intpk
 
 class Request(Base):
     __tablename__ = "request"
+    # Модель для базы данных заявки на кредит
 
     id: Mapped[intpk]
     month: Mapped[int]
@@ -28,5 +29,8 @@ class Request(Base):
         "User",
         back_populates="requests",
         uselist=False,
+    )
+    is_good_client: Mapped[float] = mapped_column(
+        nullable=True
     )
 

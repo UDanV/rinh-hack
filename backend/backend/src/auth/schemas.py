@@ -16,6 +16,8 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
 
 
 class UserCreate(schemas.BaseUserCreate):
+    # схема pydantic для взаимодействия с регистрацией
+    first_name: str
     email: EmailStr
     password: str
     is_active: Optional[bool] = True

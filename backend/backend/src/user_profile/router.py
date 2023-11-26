@@ -12,19 +12,15 @@ from src.user_profile.models import User
 
 router = fastapi.APIRouter(prefix="/profile", tags=["user-profile"])
 
-
+# Эндпоинт для получения основных данных пользователя
 @router.get("/")
 async def get_user_data(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    user_attrs = user.__dict__
-    username = user_attrs.get("username")
-    registered_at = user_attrs.get("registered_at")
-    # img =
     return {
         "status": "success",
-        "username": username,
-        "registered_at": registered_at,
+        "first_name": user.first_name,
+        "registered_at": user.registered_at,
         "details": None,
     }

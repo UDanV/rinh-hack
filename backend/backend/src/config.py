@@ -2,6 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
+# Загружаем скрытые данные из файла .env
+
 load_dotenv()
 
 DB_HOST = os.environ.get("DB_HOST")
@@ -19,3 +21,6 @@ DB_PASS_TEST = os.environ.get("DB_PASS_TEST")
 SECRET_AUTH = os.environ.get("SECRET_AUTH")
 
 SENTRY_URL = os.environ.get("SENTRY_URL")
+
+SMTP_USER = os.environ.get("SMTP_USER")
+SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
