@@ -11,6 +11,8 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen({ navigation }) {
     const [name, setName] = useState({ value: '', error: '' })
@@ -27,11 +29,75 @@ export default function RegisterScreen({ navigation }) {
             setPassword({ ...password, error: passwordError })
             return
         }
+        async function registerAndLogin(email, password, name) {
+            try {
+              // Попытка регистрации
+              const registerResponse = await axios.post('http://localhost:8000/auth/register', {
+                email: email.value,
+                password: password.value,
+                first_name: name.value,
+                last_name: "default"
+              });
+              
+            //   console.log('Регистрация:', registerResponse.data);
+              
+              // Попытка входа после успешной регистрации
+              const loginResponse = await axios.post('http://localhost:8000/auth/jwt/login', {
+                username: email.value,
+                password: password.value
+              }, 
+              { headers: { 
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                }});
+              
+            //   console.log('Вход выполнен:', loginResponse.data);
+              
+              // Возвращаем данные из второго запроса (входа), если все успешно
+              return loginResponse.data;
+              
+            } catch (error) {
+              console.error('Ошибка:', error);
+              throw error; // Вы можете обработать ошибку здесь или прокинуть её дальше, если необходимо
+            }
+          }
+
+          const storeToken = async (userToken) => {
+            try {
+              await AsyncStorage.setItem('userToken', userToken);
+            //   console.log(userToken);
+            } catch (e) {
+              // обработка возможных ошибок
+              console.log('Saving token failed', e);
+            }
+          };
+
+          // Использование функции
+          registerAndLogin(email, password, name)
+            .then((data) => {
+                storeToken(data.access_token).catch((e) => {
+                    console.log('There was an error storing the token', e);
+                  });    
+            })
+            .catch((error) => {
+              // Обработать ошибку
+            });
+          
+
         navigation.reset({
             index: 0,
             routes: [{ name: 'Dashboard' }],
         })
     }
+
+    // {
+    //     "email": "user@example.com",
+    //     "password": "string",
+    //     "is_active": true,
+    //     "is_superuser": false,
+    //     "is_verified": false,
+    //     "first_name": "string",
+    //     "last_name": "string"
+    //   }
 
     return (
         <Background>

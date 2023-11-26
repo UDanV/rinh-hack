@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, View } from 'react-native'
+import { TouchableOpacity, StyleSheet, View, Alert} from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -9,6 +9,8 @@ import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState({ value: '', error: '' })
@@ -22,12 +24,52 @@ export default function LoginScreen({ navigation }) {
             setPassword({ ...password, error: passwordError })
             return
         }
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Dashboard' }],
-        })
-    }
+        async function Login(email, password) {
+            try {
+              // Попытка входа 
+              const loginResponse = await axios.post('http://localhost:8000/auth/jwt/login', {
+                username: email.value,
+                password: password.value
+              }, 
+              { headers: { 
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                }});
+              
+            //   console.log('Вход выполнен:', loginResponse.data);
+              
+              // Возвращаем данные из второго запроса (входа), если все успешно
+              return loginResponse.data;
+              
+            } catch (error) {
+              console.error('Ошибка:', error);
+              throw error; // Вы можете обработать ошибку здесь или прокинуть её дальше, если необходимо
+            }
+          }
+          
+          const storeToken = async (userToken) => {
+            try {
+              await AsyncStorage.setItem('userToken', userToken);
+            //   console.log(userToken);
+            } catch (e) {
+              // обработка возможных ошибок
+              console.log('Saving token failed', e);
+            }
+          };
+        
 
+          // Использование функции
+          Login(email, password)
+            .then((data) => {
+                  storeToken(data.access_token).catch((e) => {
+                    console.log('There was an error storing the token', e);
+                  });            
+            })
+            .catch((error) => {
+              // Обработать ошибку
+            });
+        navigation.navigate('Dashboard')
+    }
+    
     return (
         <Background>
             <BackButton goBack={navigation.goBack} />
